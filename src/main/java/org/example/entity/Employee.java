@@ -28,9 +28,9 @@ public class Employee implements Serializable {
 
     private Integer status;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
