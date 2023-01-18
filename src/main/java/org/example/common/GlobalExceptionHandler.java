@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException ex){
-        log.error(ex.getMessage());
+//        log.error(ex.getMessage());
 
         if (ex.getMessage().contains("Duplicate entry")){
             String[] split = ex.getMessage().split(" ");
@@ -31,5 +31,16 @@ public class GlobalExceptionHandler {
             return R.error(msg);
         }
         return R.error("未知错误");
+    }
+
+    /**
+     * 异常处理
+     * @return
+     */
+    @ExceptionHandler(CustomException.class)
+    public R<String> CustomExceptionHandler(CustomException ex){
+//        log.error(ex.getMessage());
+
+        return R.error(ex.getMessage());
     }
 }

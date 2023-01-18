@@ -27,6 +27,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
         registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
+        log.info("开启静态资源映射");
     }
 
     /**
@@ -35,13 +36,13 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        log.info("扩展消息转换器");
+
         //创建消息转换器对象
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
         //设置对象转换器 底层使用jackson将java对象转为Json
         messageConverter.setObjectMapper(new JacksonObjectMapper());
         //将消息转换器追加到mvc框架的转换器上
         converters.add(0,messageConverter);
-
+        log.info("扩展消息转换器");
     }
 }

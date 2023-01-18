@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.example.common.BaseContext;
 import org.example.common.R;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -53,6 +54,8 @@ public class LoginCheckFilter implements Filter {
         //4.判断登录状态 已登录则放行
         if (request.getSession().getAttribute("employee") != null){
 //            log.info("本次请求{}已登录",requestURI);
+            Long empId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(empId);
             filterChain.doFilter(request,response);
             return;
         }
