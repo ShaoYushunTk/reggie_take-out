@@ -10,6 +10,8 @@ import org.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author Yushun Shao
  * @date 2023/1/18 15:21
@@ -74,5 +76,20 @@ public class CategoryController {
     public R<String> update(@RequestBody Category category){
         categoryService.updateById(category);
         return R.success("修改分类信息成功");
+    }
+
+    /**
+     * 根据条件查询数据 获取菜品分类
+     * @param category
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Category>> list(Category category){
+        LambdaQueryWrapper<Category> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(category.getType() != null, Category::getType, category.getType());
+        lambdaQueryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+
+        List<Category> list = categoryService.list(lambdaQueryWrapper);
+        return R.success(list);
     }
 }

@@ -7,7 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ReggieTakeOutApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void testUploadFile(){
+        String fileName = "erere.jpg";
+        String substring = fileName.substring(fileName.lastIndexOf('.'));
+        System.out.println(substring);
     }
 
 }
