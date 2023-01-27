@@ -3,6 +3,8 @@ package org.example.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.entity.DishFlavor;
 
+import java.util.List;
+
 /**
  * @author Yushun Shao
  * @date 2023/1/19 14:58

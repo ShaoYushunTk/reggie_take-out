@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -101,6 +103,38 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         }).collect(Collectors.toList());
 
         dishFlavorService.saveBatch(flavors);
+    }
+
+    /**
+     * 根据DishId删除
+     * @param ids
+     */
+    @Transactional
+    public void removeWithFlavor(String ids) {
+        //字符串分割
+        String[] splits = ids.split(",");
+        List<Long> Ids = new ArrayList<>();
+        for (String split : splits){
+            Ids.add(Long.parseLong(split));
+        }
+
+        for (Long id : Ids){
+            Dish dish = this.getById(id);
+
+            //删除图片
+            String basePath = "D:\\瑞吉外卖项目\\reggie_take-out\\img\\";
+            File file = new File(basePath + dish.getImage());
+            file.delete();
+
+            //根据DishId删除dishFlavor表
+            LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(DishFlavor::getDishId,dish.getId());
+            dishFlavorService.remove(lambdaQueryWrapper);
+
+        }
+
+        //根据DishId删除dish表 如果先删除dish则找不到dishFlavor
+        this.removeBatchByIds(Ids);
     }
 
 

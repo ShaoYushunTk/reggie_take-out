@@ -1,5 +1,6 @@
 package org.example.controller;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.example.common.R;
 import org.example.dto.DishDto;
 import org.example.entity.Category;
 import org.example.entity.Dish;
+import org.example.entity.DishFlavor;
 import org.example.service.CategoryService;
 import org.example.service.DishFlavorService;
 import org.example.service.DishService;
@@ -14,6 +16,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -115,5 +119,41 @@ public class DishController {
         dishService.updateWithFlavor(dishDto);
         return R.success("修改菜品成功");
     }
+
+    /**
+     * 批量修改菜品状态
+     * @param status
+     * @param ids
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    public R<String> updateStatus(@PathVariable int status,String ids){
+        log.info("status: {}, ids: {}",status,ids);
+        //字符串分割
+        String[] splits = ids.split(",");
+        List<Long> Ids = new ArrayList<>();
+        for (String split : splits){
+            Ids.add(Long.parseLong(split));
+        }
+
+        List<Dish> dishes = dishService.listByIds(Ids);
+//        System.out.println(dishes);
+        //修改状态
+        dishes.stream().map((item)->{
+            item.setStatus(status);
+            return item;
+        }).collect(Collectors.toList());
+        dishService.updateBatchById(dishes);
+        return R.success("修改状态成功");
+    }
+
+    @DeleteMapping
+    public R<String> delete(String ids){
+
+        dishService.removeWithFlavor(ids);
+        return R.success("删除成功");
+
+    }
+
 
 }
