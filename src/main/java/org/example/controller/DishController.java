@@ -147,6 +147,11 @@ public class DishController {
         return R.success("修改状态成功");
     }
 
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
     @DeleteMapping
     public R<String> delete(String ids){
 
@@ -155,5 +160,24 @@ public class DishController {
 
     }
 
+    /**
+     * 根据条件查询菜品数据
+     * @param dish
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
+
+        LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        //根据菜品id查询
+        lambdaQueryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        //查询状态为1的菜品，表示启售状态
+        lambdaQueryWrapper.eq(Dish::getStatus, 1);
+        lambdaQueryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+
+        List<Dish> list = dishService.list(lambdaQueryWrapper);
+
+        return R.success(list);
+    }
 
 }
