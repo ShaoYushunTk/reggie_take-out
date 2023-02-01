@@ -12,6 +12,7 @@ import org.example.service.DishFlavorService;
 import org.example.service.DishService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     @Autowired
     private DishFlavorService dishFlavorService;
+
+    @Value("${reggie.path}")
+    private String basePath;
 
     /**
      * 新增菜品 同时保存口味数据
@@ -122,7 +126,6 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
             Dish dish = this.getById(id);
 
             //删除图片
-            String basePath = "D:\\瑞吉外卖项目\\reggie_take-out\\img\\";
             File file = new File(basePath + dish.getImage());
             file.delete();
 

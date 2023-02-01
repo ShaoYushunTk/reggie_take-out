@@ -26,6 +26,16 @@ mybatis-plus:
 ---
 # TODO set path
 reggie:
-  path: D:\瑞吉外卖项目\reggie_take-out\img\
+  path: D:\IDEA projects\reggie-take-out\img\
+
+---
+# TODO set redis using centos7 server
+spring:
+  data:
+    redis:
+      host: 192.168.112.132
+      port: 6379
+      password: root
+      database: 0
 
 
