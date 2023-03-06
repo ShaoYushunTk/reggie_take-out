@@ -1,5 +1,6 @@
 package org.example.config;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.JacksonObjectMapper;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +8,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
 
 import java.util.List;
 
@@ -45,4 +47,5 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         converters.add(0,messageConverter);
         log.info("扩展消息转换器");
     }
+
 }

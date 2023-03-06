@@ -33,13 +33,15 @@ reggie:
 spring:
   data:
     redis:
-      host: 192.168.112.132
+      host: 192.168.147.100
       port: 6379
       password: root
       database: 0
   cache:
     redis:
       time-to-live: 1800000 #ms
+
+
 
 
 
